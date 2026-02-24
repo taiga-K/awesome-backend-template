@@ -1,6 +1,6 @@
 ---
 name: fetch-github-issues
-description: Fetch GitHub issues using gh CLI. Lists 10 oldest issues when no number specified; fetches a specific issue when a number or URL is given. Use when the user asks to get issues, list issues, fetch an issue, or view issue details.
+description: gh CLIを使ってGitHub Issueを取得します。指定がない場合は最も古い10件を一覧表示し、番号やURLが指定された場合はそのIssueの詳細を取得します。ユーザーがIssueの取得、一覧表示、特定Issueの閲覧を求めた際に使用します。
 ---
 
 # GitHub Issue 取得

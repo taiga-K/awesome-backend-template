@@ -1,6 +1,6 @@
 ---
 name: create-branch
-description: Create Git branches following GitFlow strategy. Use when creating a new branch, switching to a feature/release/hotfix branch, or when the user asks to make a branch. Supports feature, release, and hotfix branch types with correct parent selection.
+description: GitFlow戦略に従ってGitブランチを作成します。新しいブランチの作成・feature/release/hotfixブランチへの切り替え、またはユーザーがブランチ作成を依頼した際に使用します。feature、release、hotfix各種ブランチ種別に対応し、正しい親ブランチを選択します。
 ---
 
 # create-branch

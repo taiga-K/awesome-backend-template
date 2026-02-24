@@ -1,6 +1,6 @@
 ---
 name: create-pr
-description: Create pull requests using gh CLI with PULL_REQUEST_TEMPLATE. Use when creating PRs via gh command, when the user asks to create a pull request, or when pushing a feature/release/hotfix branch and merging to the appropriate GitFlow target.
+description: gh CLIとPULL_REQUEST_TEMPLATEを用いてプルリクエストを作成します。ghコマンドでPRを作成する場合、ユーザーからPR作成を求められた場合、またはfeature/release/hotfixブランチをpushしてGitFlowに従い適切なベースブランチへマージする際に使用します。
 ---
 
 # プルリクエスト作成（PULL_REQUEST_TEMPLATE 使用）

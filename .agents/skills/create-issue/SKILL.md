@@ -1,6 +1,6 @@
 ---
 name: create-issue
-description: Create GitHub issues using gh CLI with ISSUE_TEMPLATE. Use when creating issues, bug reports, feature requests, or documentation issues via gh command, or when the user asks to create an issue with a template.
+description: gh CLIとISSUE_TEMPLATEを用いてGitHub issueを作成します。ghコマンド経由でのissue作成や、バグ報告・機能要望・ドキュメント改善などのissueをテンプレート付きで作成する際に使用します。
 ---
 
 # GitHub Issue 作成（ISSUE_TEMPLATE 使用）
