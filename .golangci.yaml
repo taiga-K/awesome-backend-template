@@ -1,0 +1,35 @@
+# golangci-lint configuration
+# https://golangci-lint.run/
+version: "2"
+
+run:
+  timeout: 5m
+  modules-download-mode: readonly
+
+linters:
+  default: standard
+  enable:
+    # セキュリティ
+    - gosec         # セキュリティ脆弱性の検出
+    - bidichk       # 双方向テキスト（Trojan Source）攻撃の検出
+    - errorlint     # エラーのラップ・比較の不適切な使用を検出
+    - bodyclose     # HTTP レスポンスボディのクローズ漏れ検出
+    - noctx         # HTTP リクエストに context.Context が渡っていない場合を検出
+    - nilerr        # エラーを確認しているのに nil を返すパターンを検出
+    # コード品質・近代化
+    - copyloopvar   # ループ変数の冗長なコピーを検出（Go 1.22+）
+    - revive        # golint 代替。命名、エクスポート、スタイルチェック
+    - gocritic      # バグ・パフォーマンス・スタイルの検出
+    - unconvert     # 不要な型変換を検出
+    - usestdlibvars # 標準ライブラリの定数・変数使用を推奨（例: http.StatusOK）
+    - modernize     # 現代的な Go の書き方へ変換を提案
+    - exhaustive    # switch の網羅性チェック（enum の全ケース対応）
+
+  settings:
+    # unused の詳細設定（必要に応じて調整）
+    unused:
+      # エクスポートされたフィールドを「使用済み」として扱う
+      # false にすると未使用の exported フィールドも検出
+      exported-fields-are-used: true
+      # 関数パラメータを「使用済み」として扱う
+      parameters-are-used: true
