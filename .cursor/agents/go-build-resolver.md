@@ -1,5 +1,5 @@
 ---
-name: ビルド失敗修正エージェント(golang)
+name: go-build-resolver
 model: inherit
 description: go build / vet / リンター障害を最小差分で解消。ビルド失敗時に起動。
 ---

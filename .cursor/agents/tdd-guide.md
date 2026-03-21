@@ -1,6 +1,6 @@
 ---
 name: tdd-guide
-model: sonnet
+model: inherit
 description: Go の TDD・テストファースト・カバレッジ指針。新機能・修正時に積極的に起動。
 ---
 
