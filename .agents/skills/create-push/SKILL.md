@@ -1,9 +1,9 @@
 ---
-name: push-branch
-description: 現在のブランチを origin に push し、必要なら upstream を設定する。ユーザーが push・リモート反映・origin へ送ることを依頼したとき、PR 作成前にリモートへブランチを載せる必要があるとき、create-commit 後に共有リポジトリへ反映するときに使用する。GitFlow の feature/release/hotfix ブランチの共有に使う。
+name: create-push
+description: 現在のブランチのコミットを origin に push し、必要なら upstream を設定する。ユーザーが push・リモート反映・origin へ送ることを依頼したとき、PR 作成前にリモートへ載せる必要があるとき、create-commit 後に共有リポジトリへ反映するときに使用する。GitFlow の feature/release/hotfix の共有にも使う。
 ---
 
-# push-branch
+# create-push
 
 ローカルコミットをリモート `origin` へ送る。初回は追跡ブランチ（upstream）を設定し、2 回目以降は通常の `git push` で同期する。
 
