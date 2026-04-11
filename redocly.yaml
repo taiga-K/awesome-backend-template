@@ -1,0 +1,54 @@
+# Redocly の推奨ルールセットを土台にしつつ、
+# 社内向け API に合わせて厳しさを調整する。
+extends:
+  - recommended
+
+apis:
+  main:
+    # 分割 OpenAPI の entrypoint。
+    root: ./docs/api/openapi.yaml
+
+plugins:
+  # ルート paths を $ref のみに制限する独自ルール。
+  - ./redocly-plugin.js
+
+rules:
+  # セキュリティ定義や公開向け URL は、社内 API 前提のため warn に留める。
+  security-defined: warn
+  info-license: off
+  info-license-strict: off
+  no-server-example.com: warn
+
+  # OpenAPI として壊れている状態は error で止める。
+  no-unused-components: error
+  no-unresolved-refs: error
+  spec-strict-refs: error
+  operation-operationId: error
+  operation-summary: error
+  operation-2xx-response: error
+  operation-4xx-response: warn
+  path-not-include-query: error
+
+  # ルート openapi.yaml では inline 定義を避け、分割ファイル参照を強制する。
+  local/root-paths-ref-only: error
+
+  # operation ごとの説明責務を最低限そろえる。
+  rule/operation-description:
+    subject:
+      type: Operation
+      property: description
+    assertions:
+      defined: true
+      minLength: 10
+    message: Operation には十分な description を定義してください。
+    severity: error
+
+  # schema の説明も促すが、導入初期は warn に留める。
+  rule/schema-description:
+    subject:
+      type: Schema
+      property: description
+    assertions:
+      defined: true
+    message: Schema には description を定義してください。
+    severity: warn

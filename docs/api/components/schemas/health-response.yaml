@@ -1,0 +1,20 @@
+type: object
+description: サービスの稼働状態と確認時刻を表すレスポンスです。
+required:
+  - status
+  - checkedAt
+  - service
+properties:
+  status:
+    type: string
+    description: 現在の稼働状態です。
+    enum:
+      - ok
+      - degraded
+  checkedAt:
+    type: string
+    format: date-time
+    description: 状態確認を行った日時です。
+  service:
+    type: string
+    description: 状態を返したサービス名です。

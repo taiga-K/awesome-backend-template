@@ -1,0 +1,25 @@
+openapi: 3.1.0
+info:
+  title: Awesome Backend Template Internal API
+  version: 0.1.0
+  description: 社内利用を前提とした API 仕様の最小エントリポイントです。
+servers:
+  - url: https://internal-api.local
+    description: 社内向け API のベース URL
+security:
+  - BearerAuth: []
+paths:
+  /health:
+    $ref: ./paths/health.yaml
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 社内 API 呼び出しで利用する Bearer トークンです。
+  schemas:
+    HealthResponse:
+      $ref: ./components/schemas/health-response.yaml
+    ErrorResponse:
+      $ref: ./components/schemas/error-response.yaml

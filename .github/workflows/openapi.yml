@@ -1,0 +1,42 @@
+name: OpenAPI Validation
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+    paths:
+      - 'docs/api/**'
+      - 'redocly.yaml'
+      - 'redocly-plugin.js'
+      - '.github/workflows/openapi.yml'
+
+jobs:
+  openapi:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Redocly CLI
+        run: npm install -g @redocly/cli@2.25.4
+
+      - name: Lint OpenAPI
+        run: redocly lint --config redocly.yaml docs/api/openapi.yaml --format github-actions
+
+      - name: Bundle OpenAPI
+        run: redocly bundle docs/api/openapi.yaml --output docs/api/api_schema.yaml
+
+      - name: Check bundled file is committed
+        run: git diff --exit-code -- docs/api/api_schema.yaml

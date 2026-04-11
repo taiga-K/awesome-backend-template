@@ -1,0 +1,83 @@
+openapi: 3.1.0
+info:
+  title: Awesome Backend Template Internal API
+  version: 0.1.0
+  description: 社内利用を前提とした API 仕様の最小エントリポイントです。
+servers:
+  - url: https://internal-api.local
+    description: 社内向け API のベース URL
+security:
+  - BearerAuth: []
+paths:
+  /health:
+    get:
+      operationId: getHealth
+      summary: ヘルスチェックを取得する
+      description: 内部 API の稼働状態と基本情報を返します。
+      tags:
+        - System
+      responses:
+        '200':
+          description: 正常に状態を取得した
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/health-response'
+        '401':
+          description: 認証情報が不足しているか無効
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error-response'
+        '503':
+          description: 一時的に状態を取得できない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error-response'
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 社内 API 呼び出しで利用する Bearer トークンです。
+  schemas:
+    HealthResponse:
+      $ref: '#/components/schemas/health-response'
+    ErrorResponse:
+      $ref: '#/components/schemas/error-response'
+    health-response:
+      type: object
+      description: サービスの稼働状態と確認時刻を表すレスポンスです。
+      required:
+        - status
+        - checkedAt
+        - service
+      properties:
+        status:
+          type: string
+          description: 現在の稼働状態です。
+          enum:
+            - ok
+            - degraded
+        checkedAt:
+          type: string
+          format: date-time
+          description: 状態確認を行った日時です。
+        service:
+          type: string
+          description: 状態を返したサービス名です。
+    error-response:
+      type: object
+      description: エラー時の応答内容を表すレスポンスです。
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          description: エラー種別を識別するコードです。
+        message:
+          type: string
+          description: 利用者または呼び出し元に返す説明です。
