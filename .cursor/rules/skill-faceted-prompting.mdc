@@ -1,0 +1,50 @@
+---
+description: Enforce faceted prompting for skill docs under .agents/skills
+globs: .agents/skills/**/*.md
+alwaysApply: false
+---
+
+# Skill Facets
+
+`.agents/skills` 配下のスキル文書は、Faceted Prompting の関心分離で設計する。
+スキル作成の一般原則は `/create-skill` を基準にし、このルールは「どの関心をどこに置くか」と「どう並べるか」を補足する。
+
+## 基本方針
+
+- `SKILL.md` はオーケストレーション層として扱い、用途、トリガー、読み込む補助文書だけを書く。
+- 役割、禁止事項、手順、参照知識、出力形式を `SKILL.md` に混在させない。
+- 共有する関心は `.agents/skills/separation-of-concerns/` 配下へ置き、skill 固有の要素は各 skill 配下へ置く。
+- `/create-skill` の原則に従い、説明文は「何をする skill か」と「いつ使うか」を明示し、`SKILL.md` は簡潔に保つ。
+
+## 配置ルール
+
+- 共有 facet: `personas/`, `policies/`, `knowledge/`, `output-contracts/`
+- skill 固有: `instructions/`, `examples/`, `scripts/`, `templates/`, `fixtures/`
+- `personas/`: エージェントの役割、専門性、境界だけを書く。手順は書かない。
+- `policies/`: 横断的なルール、禁止事項、品質基準、優先順位を書く。事実説明は書かない。
+- `knowledge/`: 判断に必要な事実、用語、仕様、前提を書く。「こうあるべき」は書かない。
+- `instructions/`: 各 skill 固有の作業手順だけを書く。共有前提にしない。
+- `templates/`: skill 固有の具体的な雛形やサンプル本文を書く。出力契約そのものは `output-contracts/` に置く。
+- `scripts/` は facet ではなく実行資産として扱う。意味や目的は `instructions/` または `policies/` 側に書く。
+
+## 再利用ルール
+
+- 新しい共有 facet を作る前に、`.agents/skills/separation-of-concerns/` 配下に再利用可能な既存 facet がないか最初に確認する。
+- 既存 facet が責務、粒度、用途の面で適合する場合のみ再利用する。無理に共通化しない。
+
+## 使用順
+
+- `Persona` は別枠で扱い、原則として `SKILL.md` に埋め込まず `personas/` を参照する。
+- 残りの関心は `Knowledge` → `Instruction` → `Output Contract` → `Policy` の順で組み立てる。
+- `Policy` は出力直前に効かせるため、末尾に置く。
+
+## 期待する構成
+
+- `SKILL.md` から使用する共有 facet と skill 固有要素を参照できる状態にする。
+- 同じ role や rule を複数 skill に重複記述せず、共有 facet へ寄せる。
+- 手順差分は共有化せず、各 skill の `instructions/` に閉じ込める。
+
+## 例
+
+- 良い例: `SKILL.md` には使用する `personas/`, `policies/`, `knowledge/`, `output-contracts/` と、自 skill の `instructions/` を案内する。
+- 悪い例: `SKILL.md` ひとつに役割説明、レビュー手順、禁止事項、出力テンプレートをすべて埋め込む。
