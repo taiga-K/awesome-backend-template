@@ -1,60 +1,8 @@
 # 例
 
-## `internal/domain` をまだ分けない例
-
-```text
-internal/domain/
-└─ task/
-```
-
-使う条件:
-
-- `task` 配下の概念が少ない
-- 変更が少数ファイルに閉じる
-- `model` と `service` を分けるとかえって追いにくい
-
-## `internal/domain` を業務境界の内側で分ける例
-
-```text
-internal/domain/
-└─ task/
-   ├─ model/
-   ├─ service/
-   └─ repository/
-```
-
-使う条件:
-
-- `task` 配下の責務が増えた
-- レビュー時にモデル変更とルール変更を分けて見たい
-- 同種ファイルが複数あり、直下に並べると見通しが悪い
-
-## 分け方を間違えている例
-
-```text
-internal/domain/
-├─ model/
-├─ service/
-└─ repository/
-```
-
-問題点:
-
-- `task` と `user` の境界がぼやける
-- 1 つの業務変更で複数ディレクトリを往復しやすい
-- 集約の凝集より技術分類が前に出る
-
-## `application` へ上げるべき例
-
-状況:
-
-- `task` の完了条件判定に加えて `user` の状態確認が必要
-- さらに通知送信や永続化順序の調停も必要
-
-判断:
-
-- 集約横断の手順と副作用調停なので、まず `application` の責務を疑う
-- `domain/service` に押し込まず、`application` から各集約と外部依存を調停する
+`internal/domain` の分割例は、正本を `references/directory-splitting.md` に寄せる。  
+分割方針の具体例が必要なときは、先に [references/directory-splitting.md](references/directory-splitting.md) を参照する。  
+このファイルでは、複数資料をまたいで使う **横断的な回答例** を残す。
 
 ## `docs/domain` から OpenAPI を起こすとき、まず確認を返す例
 

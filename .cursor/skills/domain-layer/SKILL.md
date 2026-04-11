@@ -1,6 +1,6 @@
 ---
 name: domain-layer
-description: Defines domain-layer guidance for this repository in DDD x Clean Architecture, including domain responsibilities, aggregate boundaries, value objects, repository abstractions, `internal/domain` splitting, `docs/domain` use case and domain model documents, ubiquitous language maintenance, and deriving `docs/api` OpenAPI from domain documents. Use when designing, implementing, reviewing, or documenting the domain layer, `docs/domain`, or domain-derived APIs in this repository.
+description: Defines domain-layer guidance for this repository in DDD x Clean Architecture, including domain responsibilities, aggregate boundaries, value objects, repository abstractions, `internal/domain` splitting, `docs/domain` use case and domain model documents, ubiquitous language maintenance, and deriving `docs/api` OpenAPI from domain documents. Expected outputs include concise domain-layer recommendations with reasons, document sync steps, or domain-derived OpenAPI drafts with assumptions and Redocly verification status. Use when designing, implementing, reviewing, or documenting the domain layer, `docs/domain`, or domain-derived APIs in this repository.
 ---
 
 # ドメイン層
@@ -23,6 +23,12 @@ description: Defines domain-layer guidance for this repository in DDD x Clean Ar
 このスキルは `ARCHITECTURE.md` の保守を扱わない。  
 API の path、HTTP メソッド、エラー形式、認証方式などの **Web API 設計判断** は、必要に応じて `../api-design/SKILL.md` を併読する。
 
+## 期待する出力
+
+- ドメイン層の判断では、**結論、理由、置き場所、注意点** を短く分けて返す
+- `docs/domain` の整備では、**どの文書を更新すべきか** と **同期が必要な周辺文書** を明示する
+- `docs/domain` から OpenAPI を起こすときは、**確定事項、未確定事項、補った仮定、Redocly 検証状況** を分けて返す
+
 ## 基本原則
 
 - **重要なビジネスルールはドメイン層に寄せる**
@@ -41,6 +47,8 @@ API の path、HTTP メソッド、エラー形式、認証方式などの **Web
 3. 既存の `docs/domain/` または `docs/api/` があれば読む
 4. Web API 設計判断が必要なら `../api-design/SKILL.md` を読む
 5. 情報が足りないなら、埋めずにユーザーへ確認する
+
+判断、実装、レビューでは、**該当する論点の `references/*.md` を開いてから** 進める。
 
 ## 作業の入口
 
@@ -63,6 +71,7 @@ API の path、HTTP メソッド、エラー形式、認証方式などの **Web
 
 - `references/domain-to-openapi.md` を読む
 - その上で API 設計判断が必要なら `../api-design/SKILL.md` を読む
+- `docs/api` に成果物を作るなら、必要に応じて `.cursor/commands/openapi.md` の Redocly 手順も確認する
 
 ## 判断順序
 
@@ -71,6 +80,7 @@ API の path、HTTP メソッド、エラー形式、認証方式などの **Web
 3. `internal/domain` をいじるなら、**業務境界で追いやすいか** を基準に構成を決める
 4. 概念や境界が変わるなら、必要に応じて `docs/domain/usecase/`, `docs/domain/ubiquitous-language.md`, `docs/domain/uml/` を同じ変更単位で更新する
 5. `docs/domain` から `docs/api` を起こすなら、**確定事項** と **仮定** を分けて出す
+6. `docs/api` に保存する依頼なら、Redocly による lint / bundle の前提ファイルがあるか確認し、検証できたかどうかを結果に含める
 
 ## してはいけないこと
 
@@ -81,6 +91,7 @@ API の path、HTTP メソッド、エラー形式、認証方式などの **Web
 - ドメインモデル図やユースケース図から、未確認の API 設計を確定事項として書くこと
 - 依頼がない限り PNG、SVG、PDF などの画像成果物を追加すること
 - `docs/api` に保存する依頼で、単一ファイル YAML のまま完了扱いにすること
+- Redocly 前提の検証が必要なのに、`redocly.yaml` や `docs/api/openapi.yaml` の不足を無視して「検証済み」と扱うこと
 
 ## 追加資料
 

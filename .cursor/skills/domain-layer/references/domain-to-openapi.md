@@ -26,7 +26,8 @@ API の path、HTTP メソッド、エラー設計、認証方式、レスポン
 
 ## 最初に確認する入力
 
-最低限、次を読む。
+最低限、次を **入力の棚卸しとして** 確認する。  
+この段階は「何が存在するか」を把握するためのチェックであり、矛盾したときの優先順位そのものではない。
 
 - `docs/domain/ubiquitous-language.md`
 - `docs/domain/usecase/**/*.puml`
@@ -35,6 +36,8 @@ API の path、HTTP メソッド、エラー設計、認証方式、レスポン
 - 既存の API 文書やサーバ実装があるならそれも確認する
 
 ## 入力ソースの優先順位
+
+ソース間で内容が食い違ったときは、次の順で判断する。
 
 1. `docs/domain/usecase/*.puml` と `*.md`
 2. `docs/domain/uml/*.puml`
@@ -66,6 +69,8 @@ API の path、HTTP メソッド、エラー設計、認証方式、レスポン
 7. **仮定を明示する**
    - どうしても補完した箇所がある場合は、OpenAPI 本体とは別に assumptions を列挙する
 8. **`docs/api` に書くときは分割構成へ落とし込む**
+9. **Redocly で検証する**
+   - `docs/api` に保存した成果物は、`.cursor/commands/openapi.md` の手順に従って lint と bundle を確認する
 
 ## ユースケースから operation 候補へ
 
@@ -164,6 +169,34 @@ docs/api/
 2. 次に `api-design` で必要な API 設計判断
 3. `api-design` またはユーザー確認後に OpenAPI YAML
 4. 補った仮定の一覧
+5. Redocly による検証結果、または未検証の理由
+
+## Redocly による機械検証
+
+`docs/api` に成果物を保存、更新した場合は、意味レビューだけで終わらせず **OpenAPI 文書として壊れていないこと** も確認する。
+
+既定では `.cursor/commands/openapi.md` の手順に従い、次を確認する。
+
+1. Lint
+
+```bash
+npx @redocly/cli lint --config redocly.yaml docs/api/openapi.yaml
+```
+
+2. Bundle
+
+```bash
+npx @redocly/cli bundle docs/api/openapi.yaml --output docs/api/api_schema.yaml
+```
+
+最低限の確認対象:
+
+- `redocly.yaml` と `docs/api/openapi.yaml` が存在し、コマンド前提を満たしているか
+- `$ref` が解決できるか
+- 分割構成の entrypoint と生成される `docs/api/api_schema.yaml` が整合しているか
+- lint で検出される構文、参照、必須記述の不備がないか
+
+前提ファイルや手順が未整備で実行できない場合は、無理に「検証済み」とせず、**何が不足していて未検証なのか** を結果に明記する。
 
 ## レビュー観点
 
