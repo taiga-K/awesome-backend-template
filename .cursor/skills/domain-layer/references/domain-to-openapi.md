@@ -44,7 +44,36 @@ API の path、HTTP メソッド、エラー設計、認証方式、レスポン
 3. `docs/domain/ubiquitous-language.md`
 4. 既存 API 実装、既存仕様
 
-矛盾したら、既存 API 実装またはユーザー確認を優先する。
+矛盾したら、既存 API 実装またはユーザー確認を優先する。  
+ただし、**食い違いを黙って解消しない**。
+
+## `docs/domain` と実装が食い違うとき
+
+### 結論
+
+先に差分を列挙し、確認に回す。
+
+### 手順
+
+1. `docs/domain` と実装の差分を箇条書きで並べる
+2. 差分を次の 3 区分で整理する
+   - **`docs/domain` が古い**
+   - **実装が古い**
+   - **未確定で確認が必要**
+3. 未確定のものは、OpenAPI の確定事項として書かない
+4. 叩き台を作る場合も、差分一覧と仮定を別枠で明示する
+
+### 例
+
+```markdown
+差分一覧:
+- `docs/domain` では Task は `dueDate` 必須、実装では nullable
+- `docs/domain` では taskStatus は 2 値、実装では `archived` が追加されている
+
+区分:
+- `docs/domain` が古い: taskStatus の値
+- 未確定で確認が必要: `dueDate` の必須 / 任意
+```
 
 ## 役割分担
 

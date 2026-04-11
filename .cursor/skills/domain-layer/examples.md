@@ -49,6 +49,66 @@
 - `api-design` に未定義の点があれば先に確認する
 - 仮定を置いた場合は、その点を明示する
 
+## Go のドメイン実装方針を返す例
+
+**入力**
+
+- ユーザー: `Go で Product 集約を DDD っぽく実装したい`
+
+**期待する動き**
+
+1. `references/domain-core.md` を読む
+2. `references/go-implementation.md` を読む
+3. 単一集約の不変条件か、複数集約の調停かを切り分ける
+4. `NewXxx()` と `Reconstruct()` の分離要否を判断する
+
+**出力例**
+
+```markdown
+**結論**
+`Product` はエンティティ、`Name` と `Money` は値オブジェクト、`ProductRepository` の interface は `domain` に置くのが自然です。
+
+**理由**
+商品名や価格の検証は単一集約の不変条件なので、`usecase` ではなく `domain` に閉じ込めた方が崩れにくいです。
+
+**置き場所**
+- `internal/domain/product/entity.go`
+- `internal/domain/product/value_object.go`
+- `internal/domain/product/repository.go`
+- `internal/usecase/product/save_product.go`
+- 実装は `internal/infra/repository/product_repository.go`
+
+**注意点**
+- `NewProduct()` と `ReconstructProduct()` を分けて、新規生成ルールと DB 復元を混ぜないでください。
+- `domain` に `gorm` や `json` tag は置かないでください。
+```
+
+## ドメインサービスを増やしすぎない例
+
+**入力**
+
+- ユーザー: `TaskService に作成、完了、通知連携を全部集めようと思う`
+
+**期待する動き**
+
+- 単一集約の振る舞いと副作用調停を分ける
+- `domain` とユースケース層の責務境界を先に返す
+
+**出力例**
+
+```markdown
+**結論**
+そのまま `TaskService` に寄せるのは避けた方がよいです。
+
+**理由**
+タスクの状態遷移は `Task` 自身の責務ですが、通知送信や処理順制御はユースケース層（application層）の調停です。
+
+**設計ポイント**
+- `Task.Complete()` は `domain`
+- 通知送信は `internal/usecase` の責務
+- 複数集約のルールだけが残るなら、責務名ベースのドメインサービスを検討します
+```
+
 ## スコープ外ユースケースを除外する例
 
 **入力**
