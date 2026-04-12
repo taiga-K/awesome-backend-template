@@ -25,50 +25,18 @@ git status --porcelain
 - 複数の変更は `git add` でステージングを分けて実行
 - **未追跡ファイルを含む変更されたファイルはすべてcommitする**
 
-## Conventional Commits 形式
+## コミットメッセージの書き方
 
-```
-<type>(<scope>): <subject>
-<BLANK LINE>
-<body>
-<BLANK LINE>
-<footer>
-```
-
-| 要素 | ルール |
-|------|--------|
-| type | 小文字。`build`, `chore`, `ci`, `docs`, `feat`, `fix`, `perf`, `refactor`, `revert`, `style`, `test` から選択 |
-| scope | **必須**。対象領域を明確にする |
-| subject | 簡潔に（50字推奨）。ヘッダー全体は100字以内。末尾に句点・ピリオドを付けない |
-| body（本文） | **必須**（日本語）。ヘッダーとの間に空行。1行100字以内で適宜改行 |
-| footer | あれば body との間に空行。各行100字以内 |
-
-## 出力例
-
-**入力**（変更内容）: ユーザー認証に JWT を追加
-
-**出力**:
-```
-feat(auth): JWT によるユーザー認証を実装
-
-ログインエンドポイントとトークン検証ミドルウェアを追加
-```
-
-**入力**: 日付表示のバグ修正
-
-**出力**:
-```
-fix(reports): タイムゾーン変換時の日付フォーマットを修正
-
-レポート生成で UTC タイムスタンプを一貫して使用
-```
+- コミットメッセージのルールは `CONTRIBUTING.md` の `## コミットメッセージ` に従う
+- `.cursor/commands/commit.md` では書式を重複定義せず、実行手順のみを扱う
+- メッセージを組み立てる前に、`CONTRIBUTING.md` を確認して現在のルールを参照する
 
 ## commit実行コマンド
 
 **zsh の場合**（推奨、複数行 body を保持）:
 ```bash
 git commit -F =(cat <<'MSG'
-type(scope): subject
+type: subject
 
 本文1行目（100字以内で改行）
 本文2行目
@@ -81,7 +49,7 @@ MSG
 
 **bash の場合**（複数 `-m` で段落区切り）:
 ```bash
-git commit -m "type(scope): subject" -m "本文1行目" -m "本文2行目"
+git commit -m "type: subject" -m "本文1行目" -m "本文2行目"
 ```
 
 ## 複数変更を分割してcommitする場合
@@ -92,7 +60,7 @@ git status --porcelain
 # 1つ目
 git add <ファイル1>
 git commit -F =(cat <<'MSG'
-type(scope1): subject1
+type: subject1
 
 body1-1行目（100字以内で改行）
 body1-2行目
@@ -102,19 +70,13 @@ MSG
 # 2つ目
 git add <ファイル2>
 git commit -F =(cat <<'MSG'
-type(scope2): subject2
+type: subject2
 
 body2-1行目（100字以内で改行）
 body2-2行目
 MSG
 )
 ```
-
-## 必須事項
-
-- subject と body（本文）は**日本語**で記述
-- ヘッダー（`<type>(<scope>): <subject>`）は100字以内
-- body（本文）/ footer は各行100字以内
 
 ## 補足
 
