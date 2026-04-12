@@ -1,0 +1,38 @@
+---
+description: docs/api の OpenAPI 分割方針
+globs: docs/api/**/*.{yml,yaml}
+alwaysApply: false
+---
+
+# OpenAPI の分割方針
+
+- `docs/api` 配下の OpenAPI は、**必要最低限の分割**にとどめる。
+- `docs/api` にファイルとして成果物を作る場合は、**最初から分割構成**で作成する。単一ファイルの `openapi.yaml` だけで完了扱いにしない。
+- 分割単位は、今回の作業で使った `redocly/cli split` の出力と一致させ、同じ入力から同じ構成を再現できることを優先する。
+- 先回りしてディレクトリや分割粒度を増やさない。細かい分割は後からできるが、複雑化した構成を戻すのは難しい。
+
+## 基本構成
+
+- ルートでは `paths/` と `components/` を基準にする。
+- `components/` 配下は、実際に必要な種別だけを作る。開始点は `schemas/` を基本とし、未使用の `examples/` などを慣習だけで追加しない。
+- 最低限、`paths/` と `components/schemas/` は最初から作る。
+- `components/parameters/` や `components/responses/` などは、実際に参照がある場合、または `redocly split` の出力で自然に現れる場合だけ追加する。
+- `paths/` と `components/` の各ファイルは、`redocly split` が自然に出力する責務単位を保つ。
+
+```text
+openapi/
+├── components/
+│   └── schemas/
+│       ├── user.yaml
+│       └── admin.yaml
+└── paths/
+    ├── user.yaml
+    └── admin.yaml
+```
+
+## 避けること
+
+- `docs/api` に保存する成果物なのに、分割せず `openapi.yaml` だけを置くこと
+- 将来使うかもしれないという理由だけで `components/examples/` などを先に作ること
+- 1つの概念を細かく分けすぎて、`redocly split` の再実行で再現しにくい構成にすること
+- 慣習だけを根拠に、編集コストと探索コストを増やすこと
