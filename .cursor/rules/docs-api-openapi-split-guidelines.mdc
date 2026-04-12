@@ -1,9 +1,8 @@
 ---
 description: docs/api の OpenAPI 分割方針
-globs: docs/api/**/*.{yml,yaml}
+globs: docs/api/**/*.yml,docs/api/**/*.yaml
 alwaysApply: false
 ---
-
 # OpenAPI の分割方針
 
 - `docs/api` 配下の OpenAPI は、**必要最低限の分割**にとどめる。
