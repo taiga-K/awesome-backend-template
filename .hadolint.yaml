@@ -1,0 +1,6 @@
+# hadolint project configuration
+#
+# Keep the default rule set and fail the workflow on warning-or-higher issues.
+# This keeps style/info suggestions visible locally while blocking risky patterns in CI.
+failure-threshold: warning
+format: tty

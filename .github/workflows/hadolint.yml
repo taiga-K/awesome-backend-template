@@ -1,0 +1,53 @@
+name: Dockerfile Lint
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+    paths:
+      - "docker/**"
+      - "**/Dockerfile*"
+      - "**/*.Dockerfile"
+      - ".hadolint.yaml"
+      - ".github/workflows/hadolint.yml"
+
+jobs:
+  hadolint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Lint Dockerfiles
+        env:
+          HADOLINT_IMAGE: ghcr.io/hadolint/hadolint:v2.14.0
+        run: |
+          set -euo pipefail
+
+          mapfile -t dockerfiles < <(
+            git ls-files | awk '
+              /(^|\/)Dockerfile([^\/]*)$/ || /(^|\/)[^\/]+\.Dockerfile$/ {
+                print
+              }
+            '
+          )
+
+          if [ "${#dockerfiles[@]}" -eq 0 ]; then
+            echo "No Dockerfiles found in tracked files."
+            exit 0
+          fi
+
+          for file in "${dockerfiles[@]}"; do
+            echo "::group::hadolint ${file}"
+            docker run --rm -i \
+              -v "${PWD}/.hadolint.yaml:/.config/hadolint.yaml:ro" \
+              "${HADOLINT_IMAGE}" < "${file}"
+            echo "::endgroup::"
+          done
