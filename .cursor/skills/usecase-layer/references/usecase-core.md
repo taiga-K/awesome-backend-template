@@ -46,7 +46,7 @@
 
 ## 戻り値の判断
 
-- 内側の別ユースケースや application 内 helper だけが消費するなら domain object でもよい
+- 内側の別ユースケースやユースケース層内 helper だけが消費するなら domain object でもよい
 - presentation 層へ返すなら Output DTO を第一候補にする
 - 非同期ジョブ投入の結果など、処理結果を簡潔に返したいなら専用 result struct を使う
 
@@ -59,7 +59,7 @@
 
 - 原則は避ける
 - 共通化したいのが「業務ルール」なら domain へ寄せる
-- 共通化したいのが「手順」なら private helper や application service ではなく、処理単位を見直す
+- 共通化したいのが「手順」なら private helper へ逃がす前に、処理単位を見直す
 
 ## 複数集約の扱い
 

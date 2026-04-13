@@ -2,7 +2,7 @@
 
 ## いつ使うか
 
-- Go で `internal/usecase` や `internal/application` の形を決めたいとき
+- Go で `internal/usecase` の形を決めたいとき
 - Input/Output DTO、port interface、`Run()` の形を整理したいとき
 - ユースケースのテストしやすい書き方を決めたいとき
 

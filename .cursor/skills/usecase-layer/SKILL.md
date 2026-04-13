@@ -1,6 +1,6 @@
 ---
 name: usecase-layer
-description: Defines usecase-layer guidance for this repository in DDD x Clean Architecture, including application responsibilities, orchestration, transaction boundaries, DTOs, repository and external service ports, `internal/usecase` or `internal/application` splitting, and `docs/domain/usecase` maintenance. Expected outputs include concise usecase-layer recommendations with reasons, placement guidance, transaction and side-effect handling notes, or small Go-oriented usecase templates with assumptions. Use when designing, implementing, reviewing, or documenting the usecase layer in this repository.
+description: Defines usecase-layer guidance for this repository in DDD x Clean Architecture, including usecase responsibilities, orchestration, transaction boundaries, DTOs, repository and external service ports, `internal/usecase` splitting, and `docs/domain/usecase` maintenance. Expected outputs include concise usecase-layer recommendations with reasons, placement guidance, transaction and side-effect handling notes, or small Go-oriented usecase templates with assumptions. Use when designing, implementing, reviewing, or documenting the usecase layer in this repository.
 ---
 
 # ユースケース層
@@ -10,7 +10,7 @@ description: Defines usecase-layer guidance for this repository in DDD x Clean A
 - ユースケース層に何を置き、何を置かないか判断したいとき
 - 単一集約のルールと、複数集約の調停を切り分けたいとき
 - トランザクション境界、外部 API 呼び出し、通知送信の責務を整理したいとき
-- `internal/usecase` または `internal/application` の構成を決めたいとき
+- `internal/usecase` の構成を決めたいとき
 - Input/Output DTO の置き方や戻り値の設計を決めたいとき
 - `docs/domain/usecase/` の文書を作成・更新・レビューしたいとき
 - ドメイン層、インフラ層、プレゼンテーション層の間で何を仲介するか整理したいとき

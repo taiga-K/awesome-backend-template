@@ -2,7 +2,7 @@
 
 ## いつ使うか
 
-- `internal/usecase` や `internal/application` をどう切るか相談されたとき
+- `internal/usecase` をどう切るか相談されたとき
 - ユースケース層が肥大化しているかを判断したいとき
 - 共通化 helper を増やすべきか迷ったとき
 
