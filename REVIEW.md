@@ -22,6 +22,7 @@
 - ユースケース層の判断基準: [`.cursor/skills/usecase-layer/SKILL.md`](.cursor/skills/usecase-layer/SKILL.md)
 - プレゼンテーション層の判断基準: [`.cursor/skills/presentation-layer/SKILL.md`](.cursor/skills/presentation-layer/SKILL.md)
 - インフラ層の判断基準: [`.cursor/skills/infra-layer/SKILL.md`](.cursor/skills/infra-layer/SKILL.md)
+- セキュリティルールの参照先: [`.cursor/skills/security-rules/SKILL.md`](.cursor/skills/security-rules/SKILL.md)
 - 業務用語の確認先: [`docs/domain/ubiquitous-language.md`](docs/domain/ubiquitous-language.md)
 - API 契約の確認先: [`docs/api/openapi.yaml`](docs/api/openapi.yaml)
 
@@ -193,7 +194,7 @@ Go のコードは `gofmt` を前提とします。OpenAPI や関連設定も既
 
 #### 専門レビューの必須度
 
-通常の変更では必須ではありませんが、境界をまたぐ変更や判断が重い変更では、専門観点での確認を強く推奨します。特に、`domain` の用語変更、トランザクション設計、永続化戦略、OpenAPI 変更は、関連領域に詳しいレビューが有効です。
+通常の変更では必須ではありませんが、境界をまたぐ変更や判断が重い変更では、専門観点での確認を強く推奨します。特に、`domain` の用語変更、トランザクション設計、永続化戦略、OpenAPI 変更に加え、認証、認可、入力検証、秘密情報、ログ、CI/CD、IaC、コンテナなどのセキュリティ感度が高い変更は、関連領域に詳しいレビューが有効です。
 
 #### 専門レビューが必要になりやすい変更
 
@@ -203,6 +204,7 @@ Go のコードは `gofmt` を前提とします。OpenAPI や関連設定も既
 - `usecase` で副作用順序やトランザクション境界を変えるもの
 - `infra` で repository 実装や外部 API 接続方式を変えるもの
 - `docs/api` を含む外部契約変更
+- 認証、認可、入力検証、ファイルアップロード、秘密情報、証明書、暗号、監査ログ、CI/CD、IaC、コンテナに関わるもの
 
 ## 11. 緊急時の定義
 
@@ -270,17 +272,18 @@ Go のコードは `gofmt` を前提とします。OpenAPI や関連設定も既
 
 #### AIコードレビューツールを利用するか
 
-積極的に活用して構いません。
+積極的に活用して構いません。特にセキュリティ観点の確認では、通常の品質レビューとは分けて、`.cursor/skills/security-rules/SKILL.md` を前提にしたレビューを併用すると判断漏れを減らせます。
 
 #### AIレビューツールのカスタマイズ
 
-ルールが設定できる場合は、少なくとも以下を反映してください。
+ルールが設定できる場合は、少なくとも以下を反映してください。セキュリティレビューでは、`.cursor/skills/security-rules/SKILL.md` から関連する `rule_id` を選び、対応する `references/*.md` を根拠として使ってください。無関係なセキュリティルールまで広げず、差分に対応する領域だけを開く運用にします。
 
 - `domain` に ORM/HTTP 詳細を持ち込まない
 - `usecase` を巨大な手続き置き場にしない
 - `presentation` に業務ロジック本体を置かない
 - `infra` から外部 SDK の詳細を内側へ漏らさない
 - ドキュメント更新漏れを拾う
+- セキュリティ指摘では、可能なら該当する `rule_id` を根拠として示す
 
 ## 17. API変更の確認
 
