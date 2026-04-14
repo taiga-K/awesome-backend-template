@@ -1,0 +1,58 @@
+version: 3
+
+allow:
+  deepScan: true
+  ignoreNotFoundComponents: true
+
+excludeFiles:
+  - "^.*_test\\.go$"
+
+components:
+  cmd_api:
+    in:
+      - cmd/api
+      - cmd/api/**
+  config:
+    in:
+      - internal/config
+      - internal/config/**
+  presentation:
+    in:
+      - internal/presentation
+      - internal/presentation/**
+  usecase:
+    in:
+      - internal/usecase
+      - internal/usecase/**
+  domain:
+    in:
+      - internal/domain
+      - internal/domain/**
+  infra:
+    in:
+      - internal/infra
+      - internal/infra/**
+
+deps:
+  cmd_api:
+    mayDependOn:
+      - config
+      - presentation
+      - usecase
+      - domain
+      - infra
+  config:
+    mayDependOn: []
+  presentation:
+    mayDependOn:
+      - usecase
+      - domain
+  usecase:
+    mayDependOn:
+      - domain
+  domain:
+    mayDependOn: []
+  infra:
+    mayDependOn:
+      - usecase
+      - domain
