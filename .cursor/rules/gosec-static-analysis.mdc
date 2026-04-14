@@ -1,0 +1,28 @@
+---
+description: Go 実装や依存更新時に gosec で静的セキュリティ分析を促す
+globs: **/*.go,**/go.mod,**/go.sum
+alwaysApply: false
+---
+
+# Gosec Static Analysis
+
+- `**/*.go` または `go.mod` / `go.sum` を変更したら、静的セキュリティ分析として `gosec ./...` を実行する。
+- 特に入力検証、SQL、パス操作、権限、暗号、乱数、外部コマンド実行、HTTP ハンドラまわりを変更した場合は必ず確認する。
+- `gosec` の警告は無視せず、修正するか、PR 説明や作業メモで妥当な理由を説明できる状態にしてから完了とする。
+
+## Example
+
+```bash
+gosec ./...
+```
+
+```go
+// NG: 入力値をそのままパス結合に使う
+path := filepath.Join(baseDir, userInput)
+
+// OK: 許可する値を検証してから使う
+if !allowedNames[userInput] {
+	return errors.New("invalid file name")
+}
+path := filepath.Join(baseDir, userInput)
+```

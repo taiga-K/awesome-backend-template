@@ -5,11 +5,19 @@
       {
         "command": ".cursor/hooks/openapi-sync.py post-tool-use",
         "matcher": "Write"
+      },
+      {
+        "command": ".cursor/hooks/gosec-auto-fix.py post-tool-use",
+        "matcher": "Write"
       }
     ],
     "afterFileEdit": [
       {
         "command": ".cursor/hooks/openapi-sync.py after-file-edit",
+        "matcher": "TabWrite"
+      },
+      {
+        "command": ".cursor/hooks/gosec-auto-fix.py after-file-edit",
         "matcher": "TabWrite"
       }
     ]
