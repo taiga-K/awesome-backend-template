@@ -7,11 +7,7 @@
         "matcher": "Write"
       },
       {
-        "command": ".cursor/hooks/gosec-auto-fix.py post-tool-use",
-        "matcher": "Write"
-      },
-      {
-        "command": ".cursor/hooks/golangci-lint-hook.py post-tool-use",
+        "command": ".cursor/hooks/go-format.py post-tool-use",
         "matcher": "Write"
       }
     ],
@@ -21,11 +17,7 @@
         "matcher": "TabWrite"
       },
       {
-        "command": ".cursor/hooks/gosec-auto-fix.py after-file-edit",
-        "matcher": "TabWrite"
-      },
-      {
-        "command": ".cursor/hooks/golangci-lint-hook.py after-file-edit",
+        "command": ".cursor/hooks/go-format.py after-file-edit",
         "matcher": "TabWrite"
       }
     ]
