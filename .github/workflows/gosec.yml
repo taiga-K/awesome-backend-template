@@ -1,0 +1,63 @@
+name: Gosec
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+    paths:
+      - "**/*.go"
+      - "go.mod"
+      - "go.sum"
+      - ".github/workflows/gosec.yml"
+
+jobs:
+  gosec:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Detect tracked Go files
+        id: detect-go-files
+        run: |
+          set -euo pipefail
+
+          if git ls-files "*.go" | grep -q .; then
+            echo "has_go_files=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_go_files=false" >> "$GITHUB_OUTPUT"
+            echo "No tracked Go files found. Skipping gosec."
+          fi
+
+      - name: Setup Go from go.mod
+        if: steps.detect-go-files.outputs.has_go_files == 'true' && hashFiles('go.mod') != ''
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Setup Go fallback version
+        if: steps.detect-go-files.outputs.has_go_files == 'true' && hashFiles('go.mod') == ''
+        uses: actions/setup-go@v5
+        with:
+          # Temporary fallback until the repository declares its Go version in go.mod.
+          go-version: "1.26.0"
+
+      - name: Install gosec
+        if: steps.detect-go-files.outputs.has_go_files == 'true'
+        run: |
+          set -euo pipefail
+          go install github.com/securego/gosec/v2/cmd/gosec@v2.25.0
+          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+
+      - name: Run gosec
+        if: steps.detect-go-files.outputs.has_go_files == 'true'
+        run: gosec ./...
