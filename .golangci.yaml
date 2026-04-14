@@ -13,7 +13,7 @@ linters:
     - misspell      # スペルミスを検出
     - unconvert     # 不要な型変換を検出
     - unparam       # 未使用の関数パラメータを検出
-    - gosec         # セキュリティ脆弱性を検出（SQLインジェクション、弱い暗号など）
+    # gosec は CI の gosec ジョブで実行し、ここでは二重にならないよう無効化
     - bidichk       # 双方向Unicode文字によるTrojan Source攻撃を検出
     - errorlint     # Go 1.13+のエラーラッピング・errors.Is/Asの正しい使い方を検証
     - bodyclose     # HTTPレスポンスボディのクローズ漏れを検出

@@ -1,4 +1,4 @@
-name: Gosec
+name: Go static analysis
 
 on:
   pull_request:
@@ -14,10 +14,53 @@ on:
       - "**/*.go"
       - "go.mod"
       - "go.sum"
-      - ".github/workflows/gosec.yml"
+      - ".golangci.yaml"
+      - ".github/workflows/go-static-analysis.yml"
 
 jobs:
+  golangci-lint:
+    name: golangci-lint
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Detect tracked Go files
+        id: detect-go-files
+        run: |
+          set -euo pipefail
+
+          if git ls-files "*.go" | grep -q .; then
+            echo "has_go_files=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_go_files=false" >> "$GITHUB_OUTPUT"
+            echo "No tracked Go files found. Skipping golangci-lint."
+          fi
+
+      - name: Setup Go from go.mod
+        if: steps.detect-go-files.outputs.has_go_files == 'true' && hashFiles('go.mod') != ''
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Setup Go fallback version
+        if: steps.detect-go-files.outputs.has_go_files == 'true' && hashFiles('go.mod') == ''
+        uses: actions/setup-go@v5
+        with:
+          # Temporary fallback until the repository declares its Go version in go.mod.
+          go-version: "1.26.0"
+
+      - name: Run golangci-lint
+        if: steps.detect-go-files.outputs.has_go_files == 'true'
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: v2.8.0
+
   gosec:
+    name: gosec
     runs-on: ubuntu-latest
     permissions:
       contents: read
