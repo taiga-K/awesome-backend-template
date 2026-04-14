@@ -9,6 +9,10 @@
       {
         "command": ".cursor/hooks/gosec-auto-fix.py post-tool-use",
         "matcher": "Write"
+      },
+      {
+        "command": ".cursor/hooks/golangci-lint-hook.py post-tool-use",
+        "matcher": "Write"
       }
     ],
     "afterFileEdit": [
@@ -18,6 +22,10 @@
       },
       {
         "command": ".cursor/hooks/gosec-auto-fix.py after-file-edit",
+        "matcher": "TabWrite"
+      },
+      {
+        "command": ".cursor/hooks/golangci-lint-hook.py after-file-edit",
         "matcher": "TabWrite"
       }
     ]
