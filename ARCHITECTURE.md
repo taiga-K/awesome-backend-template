@@ -9,37 +9,39 @@
 
 ## 全体像
 
-このリポジトリは、Go・Gin・slog を前提にした
-DDD x クリーンアーキテクチャのバックエンドテンプレートである。
+このリポジトリは、Go を前提にした DDD x クリーンアーキテクチャの
+バックエンドアプリケーションとして構成する。
 
-現時点では実装よりも骨組みが先に用意されているため、
-この文書は機能一覧ではなく配置と分割の基準として読む。
+現時点の実装は最小限で、主要ディレクトリは「何を置くか」を示す骨組みとして
+用意されている。したがって、この文書は実装済み機能の一覧ではなく、
+今後の実装をどの責務に沿って配置するかの地図として読む。
 
 高レベルな関係は次のとおり。
 
 ```text
-External Client / External System
-                |
-                v
-     internal/presentation
-                |
-                v
-         internal/usecase
-                |
-                v
-          internal/domain
-                ^
-                |
-          internal/infra
+Client / External System
+        |
+        v
+      cmd/api
+        |
+        v
+internal/presentation
+        |
+        v
+ internal/usecase
+        |
+        v
+  internal/domain
+        ^
+        |
+  internal/infra
 
-internal/infra は内側の層が定義した抽象を実装する
-cmd/api + internal/config は各層を組み立てる
 docs/domain: 業務の言葉とユースケース
-docs/api: HTTP 契約
+docs/api: 外部 API 契約
 ```
 
-コードの中心は `internal` にあり、`cmd/api` が組み立ての入口になる。
-`docs/domain` と `docs/api` は補助資料ではなく、
+コードの中心は `internal` にあり、`cmd/api` が起動点になる。
+`docs/domain` と `docs/api` はコードの外にある補助資料ではなく、
 それぞれ業務理解と外部契約の正しい入口として扱う。
 
 ## Code Map
