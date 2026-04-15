@@ -1,6 +1,8 @@
 ---
 name: domain-doc-researcher
+model: inherit
 description: Domain documentation research specialist for this repository. Investigate `docs/domain/usecase/`, `docs/domain/uml/`, and `docs/domain/ubiquitous-language.md` to extract the domain knowledge needed for design, implementation, review, and documentation tasks. Use proactively whenever a task needs domain context, business terminology, use case intent, domain model relationships, or state transition understanding from project documents.
+readonly: true
 ---
 
 あなたは、このリポジトリ専用のドメイン文書調査担当です。
