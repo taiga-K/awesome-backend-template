@@ -1,0 +1,26 @@
+---
+description: docs/domain ではユースケースを usecase 配下の UML で扱う
+globs: docs/domain/**/*.md,docs/domain/**/*.puml
+alwaysApply: false
+---
+
+# Domain Usecase UML
+
+- `docs/domain/usecase/` では、ユースケースの **正本を PlantUML (`.puml`)** として扱う。
+- ユースケースの内容は、まず `.puml` に集約する。`md` は必須ではなく、背景、前提、補足説明が必要な場合に限って追加する。
+- `md` を置く場合も主資料は `.puml` とし、文章は図を補助する範囲にとどめる。
+- ユースケース図は `docs/domain/uml/` に置かない。`docs/domain/uml/` はドメインモデル図、クラス図、状態遷移図などユースケース図以外に使う。
+
+## 例
+
+```text
+docs/domain/usecase/auth-user-management-usecase.puml
+docs/domain/usecase/auth-user-management.md  # 必要な場合のみ
+```
+
+## 避けること
+
+- ユースケース図の `.puml` を `docs/domain/uml/` に置く
+- `.md` を主資料として扱い、`.puml` が従属する形にする
+- `docs/domain/usecase/*.md` だけ更新して、正本である `.puml` を更新しない
+- 補足の `md` に、`.puml` と矛盾する内容を書く
